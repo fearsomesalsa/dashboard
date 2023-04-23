@@ -1,0 +1,387 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* FONTS DEFINITION START */
+
+@font-face {
+    font-family: "NunitoRegular";
+    src: url("../fonts/Nunitoregular.woff") format("woff"),
+    url("../fonts/Nunitoregular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "NunitoBold";
+    src: url("../fonts/Nunitobold.woff") format("woff"),
+    url("../fonts/Nunitobold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "NunitoExtraBold";
+    src: url("../fonts/Nunitoextrabold.woff") format("woff"),
+    url("../fonts/Nunitoextrabold.woff2") format("woff2");
+}
+
+/* FONTS DEFINITION END */
+
+
+body {
+    font-family: "NunitoRegular", sans-serif;
+    background: #EDEEF3;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* SIDEBAR STYLES START */
+
+.sidebar {
+    padding: 25px 17px 17px;
+    width: 250px;
+    flex-shrink: 0;
+    background: #F7F7F7;
+    border-right: 1px solid #E2E2E2;
+    position: relative;
+}
+
+.logo {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 27px;
+}
+
+.logo img {
+    vertical-align: top; /* у блока с картинкой примерно на 5 пикселей больше высота, чем сама картинка. чтобы это устранить, можно задать картинке display: block; либо vertical-align: top; либо блоку font-size: 0; */
+}
+
+.navigation ul {
+    list-style: none;
+}
+
+.navigation-item a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 13px 15px;
+    color: #858796;
+    transition: .5s;
+}
+
+.navigation-item a span {
+    font-size: 14px;
+    line-height: 19px;
+    margin-left: 10px;
+}
+
+.navigation-item.active a, .navigation-item:hover a {
+    background: #467DF2;
+    border-radius: 5px;
+    color: #ffffff;
+}
+
+.navigation-item.active a svg path, .navigation-item a:hover svg path {
+    fill: #ffffff;
+}
+
+.feedback {
+    padding: 13px 12px;
+    background: #F7F7F7; /* если открыть devtools, то высота вьюпорта меньше, и блока фидбека налазит на меню сайдбара. у него прозрачный фон, поэтому текст накладывается. на всякий случай задала фон, как у всего сайдбара */
+    position: fixed;
+    left: 17px;
+    bottom: 17px;
+    width: 216px;
+    border: 1px solid transparent; /* при наведении текст немного смещается из-за добавления бордера, чтобы это устранить я добавила изначально прозрачный бордер, чтоб при ховере закрашивать его. либо можно было outline, т.к. он не занимает места в блочной модели */
+}
+
+.feedback:hover {
+    border-color: #467DF2;
+    border-radius: 5px;
+}
+
+.feedback-image {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    margin: 0 6px 6px 0; /* по макету отступ снизу 7px, но в этом случае текст по-другому обтекает */
+}
+
+.feedback-text {
+    font-size: 14px;
+    line-height: 19px;
+    color: #4F4E4F;
+}
+
+.feedback-text a {
+    color: #0042EB;
+    text-decoration: none;
+}
+
+/* SIDEBAR STYLES END */
+
+
+/* CONTENT STYLES START */
+
+.content {
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+}
+
+.header {
+    background: #F7F7F7;
+    border-bottom: 1px solid #E2E2E2;
+    padding: 15px 41px 15px 40px; /* у search сверху 16px, снизу 14px. у кнопки по 15px */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-menu-items {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    position: relative; /* родитель для выпадающего меню */
+}
+
+.header-menu-item {
+    margin-right: 40px;
+}
+
+.header-menu-item:first-child {
+    margin-right: 60px;
+}
+
+.header-menu-item a {
+    font-size: 14px;
+    line-height: 19px;
+    color: #858796;
+    text-decoration: none;
+    display: flex; /* чтобы выровнять по высоте по центру бургер-меню, пришлось сделать ссылку flex контейнером. если это убрать, то a будет иметь высоту больше, чем svg, и svg не будет посередине. можно было бы убрать список, тогда все норм. оставила, потоу что обычно в хедере элементы меню делаем списком */
+    align-items: center;
+}
+
+.header-menu-item-tasks span {
+    margin-right: 11px; /* по макету 5px, то выделяющая рамка у текста шире самого текста. я установила auto width для tasks, тогда отступ 11px */
+}
+
+.header-menu-item-team:hover, .header-menu-item-tasks:hover {
+    color: #3D63D2;
+}
+
+.header-menu-item-tasks:hover svg path {
+    fill: #3D63D2;
+}
+
+.dropdown-menu .tasks-dropdown-menu { /* .header-menu-items родитель потому что так удобнее позиционировать (top left от левого верхнего угла бургер-меню), чем от пункта меню tasks */
+    display: none;
+    position: absolute;
+    top: 39px; /* 15px (до бургера) + 22px (сам бургер) */
+    left: 189px; /* 229px - 40px */
+    padding: 30px 30px 15px 20px; /* 30px - 15px (отступ у нижнего элемента */
+    background: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(102, 102, 102, 0.15);
+    border-radius: 10px;
+}
+
+.tasks-dropdown-menu-item {
+    font-size: 14px;
+    line-height: 19px;
+    color: #686464;
+    margin-bottom: 15px;
+    white-space: nowrap; /* чтобы текст не переносился */
+}
+
+.header-menu-item.dropdown-menu:hover .tasks-dropdown-menu {
+    display: block;
+}
+
+.header-search {
+    display: flex;
+    align-items: center;
+}
+
+.header-search-item {
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+}
+
+label.header-search-item {
+    padding: 10px 20px 11px;
+    background: #EFEFF5;
+    border: 1px solid #E2E2E2;
+    border-radius: 10px;
+}
+
+.header-search-item-input {
+    border: 0;
+    background: #EFEFF5;
+    margin-left: 10px;
+    outline: none;
+}
+
+.header-search-item-input::placeholder {
+    font-size: 14px;
+    line-height: 19px;
+    font-feature-settings: 'case' on;
+    color: #B3B3B3;
+}
+
+a.header-search-item:hover svg path {
+    fill: #467DF2;
+}
+
+.button {
+    background: #467DF2;
+    border: 0;
+    font-family: "NunitoBold", sans-serif;
+    font-size: 14px;
+    line-height: 19px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.upload-button {
+    padding: 11px 18px 10px;
+    border-radius: 10px;
+}
+
+.button:hover {
+    background: #2F54A3;
+}
+
+.main {
+    padding: 25px 56px 73px 40px; /* 76px (отступ справа) - 20px (у карточки), 93px (отступ снизу) - 20px (у карточки) */
+}
+
+.main-title {
+    font-family: "NunitoExtraBold", sans-serif;
+    font-size: 35px;
+    line-height: 48px;
+    color: #4F4E4F;
+}
+
+.video-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0 0 15px; /* 40px (до заголовка) - 20px (у карточки), 75px (до сайдбара) - 40px (от заголовка до сайдбара - 20px (у карточки) */
+}
+
+.video-card {
+    max-width: 350px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin: 20px;
+    position: relative;
+}
+
+.video-card:hover {
+    box-shadow: 0 4px 20px rgba(102, 102, 102, 0.15);
+}
+
+.video-card-image img {
+    vertical-align: top; /* у блока с картинкой примерно на 5 пикселей больше высота, чем сама картинка. можно задать картинке display: block; либо vertical-align: top; либо блоку font-size: 0; */
+}
+
+.video-card-info {
+    padding: 20px 27px;
+}
+
+.video-card-title {
+    font-family: "NunitoExtraBold", sans-serif;
+    font-size: 18px;
+    line-height: 25px;
+    color: #4F4E4F;
+    margin-bottom: 8px;
+}
+
+.video-card-time {
+    font-size: 15px;
+    line-height: 30px;
+    color: #4F4E4F;
+    margin-bottom: 18px;
+}
+
+.video-card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-card-actions a {
+    display: flex; /* чтобы выровнять картинки внутри ссылок по высоте*/
+    align-items: center;
+}
+
+.video-card-actions a:hover svg * {
+    fill: #467DF2;
+}
+
+.fix-block {
+    padding: 4px 10px;
+    font-size: 14px;
+    line-height: 14px;
+    border-radius: 5px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+
+.on-moderation {
+    color: #4F4E4F;
+    background: rgba(247, 247, 247, 0.8);
+}
+
+.published {
+    color: #027900;
+    background: #C6E0C3;
+}
+
+.error-uploading {
+    color: #DB0C0C;
+    background: rgba(255, 188, 188, 0.8);
+}
+
+
+.button-support {
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    transform-origin: 100% 100%; /* второй вариант (как можно обойтись без отрицательного right) */
+    transform: rotate(-90deg); /* При применении transform начало системы координат переносится в центр элемента */
+    width: 186px;
+    position: fixed;
+    right: 0;
+    top: 327px;
+    /*right: -73px; !* 186px/2 (половина ширины элемента) - 40px/2 (половина высоты элемента) *!*/
+    /*top: 420px; !* 327px (до верхнего края вьюпорта) + 186px/2 (половина ширины элемента) *!*/
+    display: flex;
+    vertical-align: center;
+    justify-content: center;
+}
+
+.button-support span {
+    margin-left: 10px;
+}
+
+.button-support:hover {
+    padding-bottom: 20px;
+    top: 317px; /* если центр вращения в правом нижнем углу, то он сметится на 10px при наведении из-за доп. паддинга в 10px */
+    /*right: -68px; !* 186px/2 (половина ширины элемента) - 50px/2 (половина высоты элемента) *!*/
+    /*top: 415px; !* 420px - 10px/2 (т.к. высота элемента увеличивается на 20px - 10px = 10px при наведении, то центр элемента смещается на половину этой разницы по высоте)*!*/
+}
+
+
+
+
+
