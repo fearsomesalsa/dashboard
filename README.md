@@ -1,2 +1,2 @@
 # Dashboard
-HTML, CSS
+HTML, CSS (non-adaptive)
